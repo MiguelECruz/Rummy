@@ -1,0 +1,337 @@
+"C:\Program Files\Java\jdk-15.0.2\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.2\lib\idea_rt.jar=50860:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.3.2\bin" -Dfile.encoding=UTF-8 -classpath C:\Users\migue\IdeaProjects\Proj2\out\production\Proj2 proj2.Proj2
+
+Welcome to Miguel's Rummy Table!
+
+2 players battle it out for a chance at redemption,
+or something silly like that, who knows.
+
+The player that discards all of their cards first, or has the lowest
+accumulated amount of points in their hand by the end, wins.
+
+Let the game commence!
+
+Player #1's initial hand: [2C, 4C, QC, AD, 6H, 7H, JH, 5S, 8S]
+Player #2's initial hand: [5C, 6C, 5D, 8D, 4H, 8H, TH, 3S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [2C, 4C, QC, AD, 6H, 7H, JH, 5S, 8S]
+	The discard pile is empty!
+	Added card to the hand from the deck: TS
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: QC
+	Hand now: [2C, 4C, AD, 6H, 7H, JH, 5S, 8S, TS]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, 8D, 4H, 8H, TH, 3S, 7S]
+	Peeked pile's top card: QC
+	Added card to the hand from the deck: TD
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: TD
+	Hand now: [5C, 6C, 5D, 8D, 4H, 8H, TH, 3S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [2C, 4C, AD, 6H, 7H, JH, 5S, 8S, TS]
+	Peeked pile's top card: TD
+	Added card to the hand from the pile: TD
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: JH
+	Hand now: [2C, 4C, AD, TD, 6H, 7H, 5S, 8S, TS]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, 8D, 4H, 8H, TH, 3S, 7S]
+	Peeked pile's top card: JH
+	Added card to the hand from the pile: JH
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: JH
+	Hand now: [5C, 6C, 5D, 8D, 4H, 8H, TH, 3S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [2C, 4C, AD, TD, 6H, 7H, 5S, 8S, TS]
+	Peeked pile's top card: JH
+	Added card to the hand from the deck: 9H
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: TD
+	Hand now: [2C, 4C, AD, 6H, 7H, 9H, 5S, 8S, TS]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, 8D, 4H, 8H, TH, 3S, 7S]
+	Peeked pile's top card: TD
+	Added card to the hand from the deck: 6S
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: TH
+	Hand now: [5C, 6C, 5D, 8D, 4H, 8H, 3S, 6S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [2C, 4C, AD, 6H, 7H, 9H, 5S, 8S, TS]
+	Peeked pile's top card: TH
+	Added card to the hand from the pile: TH
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: TH
+	Hand now: [2C, 4C, AD, 6H, 7H, 9H, 5S, 8S, TS]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, 8D, 4H, 8H, 3S, 6S, 7S]
+	Peeked pile's top card: TH
+	Added card to the hand from the deck: AH
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 8D
+	Hand now: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [2C, 4C, AD, 6H, 7H, 9H, 5S, 8S, TS]
+	Peeked pile's top card: 8D
+	Added card to the hand from the pile: 8D
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: TS
+	Hand now: [2C, 4C, AD, 8D, 6H, 7H, 9H, 5S, 8S]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+	Peeked pile's top card: TS
+	Added card to the hand from the deck: JC
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: JC
+	Hand now: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [2C, 4C, AD, 8D, 6H, 7H, 9H, 5S, 8S]
+	Peeked pile's top card: JC
+	Added card to the hand from the deck: AC
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 9H
+	Hand now: [AC, 2C, 4C, AD, 8D, 6H, 7H, 5S, 8S]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+	Peeked pile's top card: 9H
+	Added card to the hand from the pile: 9H
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 9H
+	Hand now: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, 4C, AD, 8D, 6H, 7H, 5S, 8S]
+	Peeked pile's top card: 9H
+	Added card to the hand from the deck: 6D
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 8D
+	Hand now: [AC, 2C, 4C, AD, 6D, 6H, 7H, 5S, 8S]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+	Peeked pile's top card: 8D
+	Added card to the hand from the deck: QH
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: QH
+	Hand now: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, 4C, AD, 6D, 6H, 7H, 5S, 8S]
+	Peeked pile's top card: QH
+	Added card to the hand from the deck: 4D
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 8S
+	Hand now: [AC, 2C, 4C, AD, 4D, 6D, 6H, 7H, 5S]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, AH, 4H, 8H, 3S, 6S, 7S]
+	Peeked pile's top card: 8S
+	Added card to the hand from the pile: 8S
+	Laid run of suit S: [6S, 7S, 8S]
+	Found no sets in the hand.
+	Discarded card to the hand: 8H
+	Hand now: [5C, 6C, 5D, AH, 4H, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, 4C, AD, 4D, 6D, 6H, 7H, 5S]
+	Peeked pile's top card: 8H
+	Added card to the hand from the pile: 8H
+	Laid run of suit H: [6H, 7H, 8H]
+	Found no sets in the hand.
+	Added card 5S to run of suit S.
+	Discarded card to the hand: 6D
+	Hand now: [AC, 2C, 4C, AD, 4D]
+
+Player #2's turn: 
+	Hand at the start: [5C, 6C, 5D, AH, 4H, 3S]
+	Peeked pile's top card: 6D
+	Added card to the hand from the pile: 6D
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 6C
+	Hand now: [5C, 5D, 6D, AH, 4H, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, 4C, AD, 4D]
+	Peeked pile's top card: 6C
+	Added card to the hand from the deck: 2D
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 4C
+	Hand now: [AC, 2C, AD, 2D, 4D]
+
+Player #2's turn: 
+	Hand at the start: [5C, 5D, 6D, AH, 4H, 3S]
+	Peeked pile's top card: 4C
+	Added card to the hand from the pile: 4C
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 6D
+	Hand now: [4C, 5C, 5D, AH, 4H, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, AD, 2D, 4D]
+	Peeked pile's top card: 6D
+	Added card to the hand from the deck: 3H
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 4D
+	Hand now: [AC, 2C, AD, 2D, 3H]
+
+Player #2's turn: 
+	Hand at the start: [4C, 5C, 5D, AH, 4H, 3S]
+	Peeked pile's top card: 4D
+	Added card to the hand from the pile: 4D
+	Found no runs in the hand.
+	Laid set of rank 4: [4C, 4D, 4H]
+	Discarded card to the hand: 5C
+	Hand now: [5D, AH, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, AD, 2D, 3H]
+	Peeked pile's top card: 5C
+	Added card to the hand from the deck: 9D
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 9D
+	Hand now: [AC, 2C, AD, 2D, 3H]
+
+Player #2's turn: 
+	Hand at the start: [5D, AH, 3S]
+	Peeked pile's top card: 9D
+	Added card to the hand from the deck: 7D
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 7D
+	Hand now: [5D, AH, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, AD, 2D, 3H]
+	Peeked pile's top card: 7D
+	Added card to the hand from the deck: 9C
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 9C
+	Hand now: [AC, 2C, AD, 2D, 3H]
+
+Player #2's turn: 
+	Hand at the start: [5D, AH, 3S]
+	Peeked pile's top card: 9C
+	Added card to the hand from the deck: JS
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: JS
+	Hand now: [5D, AH, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, AD, 2D, 3H]
+	Peeked pile's top card: JS
+	Added card to the hand from the deck: QS
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: QS
+	Hand now: [AC, 2C, AD, 2D, 3H]
+
+Player #2's turn: 
+	Hand at the start: [5D, AH, 3S]
+	Peeked pile's top card: QS
+	Added card to the hand from the deck: 3C
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 5D
+	Hand now: [3C, AH, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, 2C, AD, 2D, 3H]
+	Peeked pile's top card: 5D
+	Added card to the hand from the deck: 2H
+	Found no runs in the hand.
+	Laid set of rank 2: [2C, 2D, 2H]
+	Discarded card to the hand: 3H
+	Hand now: [AC, AD]
+
+Player #2's turn: 
+	Hand at the start: [3C, AH, 3S]
+	Peeked pile's top card: 3H
+	Added card to the hand from the deck: TC
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: TC
+	Hand now: [3C, AH, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, AD]
+	Peeked pile's top card: TC
+	Added card to the hand from the deck: KH
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: KH
+	Hand now: [AC, AD]
+
+Player #2's turn: 
+	Hand at the start: [3C, AH, 3S]
+	Peeked pile's top card: KH
+	Added card to the hand from the deck: 7C
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Discarded card to the hand: 7C
+	Hand now: [3C, AH, 3S]
+
+Player #1's turn: 
+	Hand at the start: [AC, AD]
+	Peeked pile's top card: 7C
+	Added card to the hand from the deck: 4S
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Added card 4S to run of suit S.
+	Discarded card to the hand: AC
+	Hand now: [AD]
+
+Player #2's turn: 
+	Hand at the start: [3C, AH, 3S]
+	Peeked pile's top card: AC
+	Added card to the hand from the pile: AC
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Added card 3S to run of suit S.
+	Discarded card to the hand: 3C
+	Hand now: [AC, AH]
+
+Player #1's turn: 
+	Hand at the start: [AD]
+	Peeked pile's top card: 3C
+	Added card to the hand from the deck: 2S
+	Found no runs in the hand.
+	Found no sets in the hand.
+	Added card 2S to run of suit S.
+	Discarded card to the hand: AD
+	Hand is now empty!
+
+Player #1 wins!
+
+Process finished with exit code 0
