@@ -49,20 +49,30 @@ As mentioned above, the `main` method starts by directly retrieving the unique i
 
 1. Print an introduction to the game, which welcomes the user and explains which conditions lead to the end of the game (one player has to discard all of their cards, or have the least amount of points by the end if the deck is exhausted first).
 2. Print the initial contents of each player's hand.
-3. Enter a loop which simulates each turn and move in the game until either ending condition has been reached. In this loop, for each iteration (a move by the player whose turn it is at that moment), the player (in reality a `Hand` object),
-    1. Displays their ID in the game and the contents of their hand.
-    2. Peeks at the card at the top of the discard pile.
-    3. Algorithmically decides, based on the value of that card, whether to be dealt a card from the deck or from the pile, and adds the selected card to their hand. This is done through an `addCard` method in the file.
-    4. Checks for melds in the hand (runs first, since they can be potentially added to throughout the game until their respective suit is completed) and "lays them down" on the table (removes them from the hand and adds them to an array of sets or runs created by the class). This is done through methods `removeRun` and `removeSet` of the `Hand` class.
-    5. Removes cards from the hand and adds them to a corresponding run or set if such an appropriate meld has already been laid down. This is done with methods `laidToRuns` and `laidToSets`, both implemented in the `Proj2` class.
-    6. Selects and discards a remaining card from the hand, if it isn't yet empty. This is done through method `removeCard`.
-    7. Passes the turn to the next player, by incrementing a `turn` variable.
+3. Enter a loop which simulates each turn and move in the game until either ending condition has been reached.
 4. Determine who the winner was and print it. This is done by first checking if the hand of the last player whose turn it was before the move loop ended is empty or not. 
     1. If it is, then it's evident that they managed to discard all of their remaining cards in that turn, and thus they are the winner. 
     2. If it isn't, then the game ended because all of the cards in the deck were dealt. The total amount of points accumulated by each player is calculated and displayed, and the player with the least amount of points wins, unless there's a tie. In all possible cases, the result is printed out at the end.
 
+In the turn loop, for each iteration (a move by the player whose turn it is at that moment), the player (in reality a `Hand` object),
 
+1. Displays their ID in the game and the contents of their hand.
+2. Peeks at the card at the top of the discard pile.
+3. Algorithmically decides, based on the value of that card, whether to be dealt a card from the deck or from the pile, and adds the selected card to their hand. This is done through an `addCard` method in the file.
+4. Checks for melds in the hand (runs first, since they can be potentially added to throughout the game until their respective suit is completed) and "lays them down" on the table (removes them from the hand and adds them to an array of sets or runs created by the class). This is done through methods `removeRun` and `removeSet` of the `Hand` class.
+5. Removes cards from the hand and adds them to a corresponding run or set if such an appropriate meld has already been laid down. This is done with methods `laidToRuns` and `laidToSets`, both implemented in the `Proj2` class.
+6. Selects and discards a remaining card from the hand, if it isn't yet empty. This is done through method `removeCard`.
+7. Passes the turn to the next player, by incrementing a `turn` variable.
 
+This steps fundamentally make up the core of the game and are enough to implement automatized players with relative ease. They, however, do not guarantee said players will play smartly, or take sensical decision regarding the processes of selecting piles to be added from or cards to be discarded. To improve this aspect of the gameplay, and entertaining potential real-life users with the opportunity of playing against an antagonist with a relative amount of skill at this version of Rummy, I followed the instructor's recommendation of implementing 4 additional heuristics as part of steps #3 and #6 of the turn loop:
+
+* **Heuristic #1**: *Always discard the card with the highest rank*. This and similar procedures implemented for laying down melds guarantee that cards with higher ranks (and a higher point value) get weeded out from the hand before cards with lower point values, thus, hopefully, decreasing the hand's total value in case the deck gets emptied out before any of the players has a chance to discard all their cards.
+
+* **Heuristic #2**: *Always consider adding each new card from the pile instead of dealing it from the deck*. A turn spent adding a card from the pile is a turn spent preventing the game from ending by deck exhaustion. This consequently buys the player another opportunity to either decrease their hand's total point count or get the card they need to empty it out. To prevent entering infinite loops (e.g., the king of spades, `KS`, gets discarded, and each player successively adds it and discards it from their hand for all eternity), an additional mechanism was added so that the player can only add a card from the stack if it isn't the one they discarded on their last turn.
+
+* **Heuristic #3**: *Add a card from the pile only if there are cards of equal or greater rank in the player's hand*. Again, just as Heuristic #1, this is done in the interest of preemptively weeding out cards with higher point values. Additionally, in combination with Heuristic #2, it betters the chances of finding the card or cards necessary for laying down a set or a run during the mid- and endgames, since, on one hand, because as the population of cards of a hand within a limited range of ranks set by the pile's top card increases, the probability of finding a meld to lay down among them does too, and on the other hand, adding an unusable card to then immediately discard it is wasting a turn, better spent by dealing a potentially better card from the deck. This rule has one exception, discussed in Heuristic #4.
+
+* **Heuristic #4**: *Also add the top card from the pile if the card with its same suit and the rank that's just once removed from the top card's is already in the hand*. This gives the player another opportunity to discard a run, concretely the one started by their highest ranked card (e.g. '6C'), the Pile's top card ('7C'), and the remaining card ('5C'), if they have it. If they don't, then the turn is wasted, a potential risk, but not a grave one.
 
 # Collaboration credits
 
