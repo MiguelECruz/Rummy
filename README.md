@@ -48,23 +48,18 @@ The game can be activated simply by running the `main` method in the `Proj2.java
 As mentioned above, the `main` method starts by directly retrieving the unique instance of `RummyTable`, thus generating the game's deck, pile and player hands, and activating it's own constructor, which carries out the game procedure itself. Said procedure can be enumerated in the following steps:
 
 1. Print an introduction to the game, which welcomes the user and explains which conditions lead to the end of the game (one player has to discard all of their cards, or have the least amount of points by the end if the deck is exhausted first).
-
 2. Print the initial contents of each player's hand.
-
 3. Enter a loop which simulates each turn and move in the game until either ending condition has been reached. In this loop, for each iteration (a move by the player whose turn it is at that moment), the player (in reality a `Hand` object),
-
-  1. Displays their ID in the game and the contents of their hand.
-  2. Peeks at the card at the top of the discard pile.
-  3. Algorithmically decides, based on the value of that card, whether to be dealt a card from the deck or from the pile, and adds the selected card to their hand. This is done through an `addCard` method in the file.
-  4. Checks for melds in the hand (runs first, since they can be potentially added to throughout the game until their respective suit is completed) and "lays them down" on the table (removes them from the hand and adds them to an array of sets or runs created by the class). This is done through methods `removeRun` and `removeSet` of the `Hand` class.
-  5. Removes cards from the hand and adds them to a corresponding run or set if such an appropriate meld has already been laid down. This is done with methods `laidToRuns` and `laidToSets`, both implemented in the `Proj2` class.
-  6. Selects and discards a remaining card from the hand, if it isn't yet empty. This is done through method `removeCard`.
-  7. Passes the turn to the next player, by incrementing a `turn` variable.
-
+    1. Displays their ID in the game and the contents of their hand.
+    2. Peeks at the card at the top of the discard pile.
+    3. Algorithmically decides, based on the value of that card, whether to be dealt a card from the deck or from the pile, and adds the selected card to their hand. This is done through an `addCard` method in the file.
+    4. Checks for melds in the hand (runs first, since they can be potentially added to throughout the game until their respective suit is completed) and "lays them down" on the table (removes them from the hand and adds them to an array of sets or runs created by the class). This is done through methods `removeRun` and `removeSet` of the `Hand` class.
+    5. Removes cards from the hand and adds them to a corresponding run or set if such an appropriate meld has already been laid down. This is done with methods `laidToRuns` and `laidToSets`, both implemented in the `Proj2` class.
+    6. Selects and discards a remaining card from the hand, if it isn't yet empty. This is done through method `removeCard`.
+    7. Passes the turn to the next player, by incrementing a `turn` variable.
 4. Determine who the winner was and print it. This is done by first checking if the hand of the last player whose turn it was before the move loop ended is empty or not. 
- 
-  1. If it is, then it's evident that they managed to discard all of their remaining cards in that turn, and thus they are the winner. 
-  2. If it isn't, then the game ended because all of the cards in the deck were dealt. The total amount of points accumulated by each player is calculated and displayed, and the player with the least amount of points wins, unless there's a tie. In all possible cases, the result is printed out at the end.
+    1. If it is, then it's evident that they managed to discard all of their remaining cards in that turn, and thus they are the winner. 
+    2. If it isn't, then the game ended because all of the cards in the deck were dealt. The total amount of points accumulated by each player is calculated and displayed, and the player with the least amount of points wins, unless there's a tie. In all possible cases, the result is printed out at the end.
 
 
 
