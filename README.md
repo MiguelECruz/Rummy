@@ -37,8 +37,16 @@ As mentioned above, the coding aspect of the project is comprised of 18 Java fil
 
 * **`RummyTable.java`**: This is the file that implements the game's GUI. It also creates, creates the game's deck, pile and player hands, fills and shuffles the deck, and fills and sorts the player hands. This class follows the Singleton design pattern, as established in the resources discussed in class: only one instance of `RummyTable` is ever created, and this instance is used by the proper gameplay class (`Proj2`) to manage all the elements and procedures related to the game. 
 
-* **`Proj2.java`**:   
+* **`CardTuple.java`** and **`MyTuple.java`**: Part of the  
 
-* **`CardTuple.java`** and **`MyTuple.java`*:  
+* **`Proj2.java`**:     
+
+# Project compilation and main game procedure
+
+
+# Collaboration credits
+
+
+# References 
 
 
