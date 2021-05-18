@@ -74,8 +74,9 @@ This steps fundamentally make up the core of the game and are enough to implemen
 
 * **Heuristic #4**: *Also add the top card from the pile if the card with its same suit and the rank that's just once removed from the top card's is already in the hand*. This gives the player another opportunity to discard a run, concretely the one started by their highest ranked card (e.g. '6C'), the Pile's top card ('7C'), and the remaining card ('5C'), if they have it. If they don't, then the turn is wasted, a potential risk, but not a grave one.
 
-# Collaboration credits
+# Collaboration credits and acknowledgements
 
+As specified in the instructions document, this project is an open assignment, which means that collaboration between classmates and colleagues was encouraged by the instructor during all parts of the project's development. I, however, **did not collaborate with any other person** at any stage of this work, nor did I provide significant help to any classmate, barring answering some general questions about restrictions that were already established in the instruction document, during unrelated group dynamics in synchronic class sessions. I would, however, like to take this section as an opportunity to acknowledge and thank Dr. Ordóñez for her continuous disposition in clearing up doubts concerning this and other class assignments, her consideration in regards to adjusting many development restrictions and deadlines, and her encouragement of each student's creative impulses in the elaboration of this project, which became a big source of motivation during the elaboration of this project. I would also like to thank all of the classmates who took time out of their undoubtedly busy routines to make fundamental and interesting questions and suggestions in both the synchronized class context and through the Piazza forum of this course, especially the anonymous poster who suggested changing the preexisting GUI button labels to more apt alternatives.
 
 # References 
 
