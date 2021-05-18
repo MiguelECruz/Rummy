@@ -33,14 +33,12 @@ As mentioned above, the coding aspect of the project is comprised of 18 Java fil
 
 * **`Hand.java`** and **`HandInterface.java`**: Perhaps the most important class in the game, the most complex and the most heavily modified, each object of `Hand` simulates and implements the individual functionality of a player's hand and the player themself. The hand of cards itself is implemented with an `ArrayList` object, and includes many overridden methods for adding, finding, getting the index of, checking if they're included, removing and replacing cards, as well as sets and runs. It also comes equipped with a sorting method, a method for evaluating the amount of points accumulated by the hand's propietor, and other unique methods for getting and setting its capacity and truncating it, to name a few.
 
-* **`Set.java`**, **`SetInterface.java`**, **`Run.java`** and **`RunInterface.java`**: 
+* **`Set.java`**, **`SetInterface.java`**, **`Run.java`** and **`RunInterface.java`**: These two pairs of files implement the sets and runs in the game, respectively. These two categories, known as melts, help accelerate the resolution of the game by providing each player with alternative ways to discard their cards. In addition to also extending the `MyStack`class, which is a requirement for the `Set` class, and thus easily implementable for the `Run` class following the same principles, both classes have enough specific similarities (there has to be a method to check if the set or run is full) to justify creating a new interface, **`MeldInterface.java`**, of which `SetInterface.java` and `RunInterface.java` are both subclasses. Because both classes also share a lot of methods with the `Hand` class, `MeldInterface` has been set to be a subclass of `HandInterface` as well.
 
+* **`RummyTable.java`**: This is the file that implements the game's GUI. It also creates, creates the game's deck, pile and player hands, fills and shuffles the deck, and fills and sorts the player hands. This class follows the Singleton design pattern, as established in the resources discussed in class: only one instance of `RummyTable` is ever created, and this instance is used by the proper gameplay class (`Proj2`) to manage all the elements and procedures related to the game. 
 
+* **`Proj2.java`**:   
 
-
-
-
-
-
+* **`CardTuple.java`** and **`MyTuple.java`*:  
 
 
