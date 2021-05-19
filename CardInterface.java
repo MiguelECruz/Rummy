@@ -1,12 +1,23 @@
+/*
+Project Rummy card game: Interface CardInterface
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Template author:      John K. Estell and Dr. Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This interface includes headers of the instance methods
+  necessary for implementing a working Card class (which represents
+  a card in a card game). The interface extends Comparable, as cards
+  must be able to be compared among themselves, to facilitate sorting.
+*/
+
 package proj2;
 
 import javax.swing.*;
 
 public interface CardInterface extends Comparable {
-
-    final static char [] suit = {'c','d','h','s'};
-    final static char [] rank = {'a','2','3','4','5','6','7','8','9','t','j','q','k'};
-    final public static String directory = "cards/";
 
     /**
      * Creates a new playing card by initializing the three instance data members of this class
@@ -14,7 +25,7 @@ public interface CardInterface extends Comparable {
      * @param rank: the rank value of this card.
      * @param cardFace: the face image of this card.
      */
-    // public Card(char suit, char rank, ImageIcon cardFace );
+    // public Card(char suit, char rank, ImageIcon cardFace);
 
     /**
      * Creates a new playing card initialized with the ImageIcon.

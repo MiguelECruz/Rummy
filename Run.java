@@ -1,3 +1,29 @@
+/*
+Project Rummy card game: Class Run
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This files defines public class "Run", each instance of
+  which is used to represent a run of cards in a card game, where
+  a run is understood to be three of more cards of the same suit
+  and consecutive ranks. The set itself is implemented through a
+  LinkedList of Card objects. Each set has a specific suit and a
+  capacity, and all sets share a default capacity, the number of
+  different ranks a card can have. Finally, the class has 26
+  methods: 2 constructors, 14 for adding, finding, removing and
+  replacing cards at different positions, 2 setters for the run's
+  suit and its index, 3 for its size and number of cards, one for
+  evaluating its value ("evaluateTo()"), another for comparing
+  that value to another hand's ("compareTo()"), one for expressing
+  it as a String ("toString()"), one for clearing it ("restoreHand()"),
+  one for truncating it ("truncateHand()"), and instance and static
+  getters and setters for its capacity and the class's default
+  capacity.
+*/
+
 package proj2;
 
 import java.util.*;

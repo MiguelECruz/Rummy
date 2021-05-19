@@ -1,9 +1,26 @@
+/*
+Project Rummy card game: Class MyTuple
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This Generic class implements a simple version of
+  a tuple or ordered pair data structure, with the option of
+  building a tuple with objects of two different classes.
+  The tuple itself is implemented with two objects of the
+  specified classes, and the class counts with 5 methods:
+  2 constructors and the classics "isEmpty()", "clear()"
+  and "toString()".
+*/
+
 package proj2;
 
 public class MyTuple <O1, O2> {
 
-    protected O1 element1 = null;
-    protected O2 element2 = null;
+    private O1 element1;
+    private O2 element2;
 
     /**
      * Creates a new tuple with two elements of potentially different classes.
@@ -20,24 +37,36 @@ public class MyTuple <O1, O2> {
         this(null, null);
     }
 
-//    /**
-//     * Adds a new item of class O to the top of the stack.
-//     * @param item the item being added.
-//     */
-//    public void push(O item) { stack.addFirst(item); }
-//
-//    /**
-//     * Removes and returns the item at the top of the stack.
-//     * @return the top item in the stack.
-//     */
-//    public O pop() { return stack.removeFirst(); }
-//
-//    /**
-//     * Returns the value of the item at the top of the stack,
-//     *   but doesn't remove it.
-//     * @return the value of the top item in the stack.
-//     */
-//    public O top() { return stack.peekFirst(); }
+    /**
+     * Returns the value of the first element in the tuple.
+     * @return the first element.
+     */
+    public O1 getFirstElement() {
+        return element1;
+    }
+
+    /**
+     * Returns the value of the second element in the tuple.
+     * @return the first element.
+     */
+    public O2 getSecondElement() {
+        return element2;
+    }
+
+    /**
+     * Returns the value of the first element in the tuple.
+     * @return the first element.
+     */
+    public void setFirstElement(O1 element) {
+        element1 = element;
+    }
+
+    /**
+     * Allows the programmer to change the second element of the tuple.
+     */
+    public void setSecondElement(O2 element) {
+        element2 = element;
+    }
 
     /**
      * Checks whether or not the tuple is empty.

@@ -1,3 +1,16 @@
+/*
+Project Rummy card game: Interface DeckInterface
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This interface includes headers of the instance methods
+  necessary for implementing a working Deck class (which represents
+  a deck of cards in a card game).
+*/
+
 package proj2;
 
 import java.util.*;

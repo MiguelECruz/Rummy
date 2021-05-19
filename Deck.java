@@ -1,3 +1,27 @@
+/*
+Project Rummy card game: Class Deck
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Template author:      John K. Estell and Dr. Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This files defines public class "Deck", each instance of
+  which is used to represent a deck of playing cards, this through
+  a LinkedList of card objects. The class counts with one constructor
+  and 14 methods, all of them instance-bound: one for automatically
+  filling the deck with all possible cards/combinations of suits
+  and ranks from the Card class ("fillDeck()"), one for shuffling the
+  deck ("shuffleDeck()"), 2 for adding (overloaded as "addCard()")
+  and 4 for removing ("dealCard()" and 3 overloaded versions of
+  "removeCard()") cards, one for peeking at the card at the bottom
+  of the deck ("peek()"), two related to the deck's amount of cards
+  ("getSizeOfDeck()" and "isEmpty()"), one for expressing it as a
+  String ("toString()") and two for clearing it out, with or without
+  filling it again (overloaded as "restoreDeck()").
+*/
+
 package proj2;
 
 import java.util.*;
@@ -5,7 +29,6 @@ import java.util.*;
 public class Deck implements DeckInterface{
 
     protected java.util.LinkedList <Card> deck;
-    // private int index;
 
     /**
      * Creates an empty deck of cards.

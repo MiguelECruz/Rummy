@@ -1,3 +1,16 @@
+/*
+Project Rummy card game: Interface DeckInterface
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This interface includes headers of the instance methods
+  necessary for implementing a working Pile class (which represents
+  a discard pile in a card game).
+*/
+
 package proj2;
 
 import java.util.*;
@@ -83,6 +96,12 @@ public interface PileInterface {
      * @return <code>true</code> if there are no cards left to be dealt from the pile.
      */
     public boolean isEmpty();
+
+    /**
+     * Returns a description of the pile.
+     * @return a list of all the cards in the pile (top card first, bottom card last).
+     */
+    public String toString();
 
     /**
      * Restores the pile to being empty and ready to add Cards to.

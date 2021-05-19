@@ -1,3 +1,31 @@
+/*
+Project Rummy card game: Class Set
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This files defines public class "Set", each instance of
+  which is used to represent a set of cards in a card game, where
+  a set is understood to be three of more cards of the same rank
+  and consequently different suits. The set itself is implemented
+  through a LinkedList of Card objects, which works as a stack,
+  hence why this class extends the MyStack class. Each set has
+  a specific rank and a capacity, and all sets share a default
+  capacity, the number of different suits from which cards of
+  the same rank can be selected. Finally, the class has 26
+  methods: 2 constructors, 10 for adding, finding, removing and
+  replacing cards, 2 setters for the set's rank and its index,
+  3 for its size and number of cards, one for evaluating its
+  value ("evaluateTo()"), another for comparing that value to
+  another hand's ("compareTo()"), one for expressing it as a
+  String ("toString()"), one for clearing it ("restoreHand()"),
+  one for truncating it ("truncateHand()"), and instance and
+  static getters and setters for its capacity and the class's
+  default capacity.
+*/
+
 package proj2;
 
 import java.util.*;

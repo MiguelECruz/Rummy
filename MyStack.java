@@ -1,3 +1,17 @@
+/*
+Project Rummy card game: Class MyStack
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This Generic class implements a simple version of
+  a stack data structure, using a LinkedList of the given class.
+  As such, it includes classic methods "push()", "pop()", "top()",
+  "isEmpty()", "clear()" and "toString()".
+*/
+
 package proj2;
 
 import java.util.LinkedList;

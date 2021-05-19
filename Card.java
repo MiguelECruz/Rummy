@@ -1,3 +1,30 @@
+/*
+Project Rummy card game: Class Card
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Template author:      John K. Estell (5/8/2003) and Dr. Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This files defines a public class called "Card", which
+  is used to create instances that represent each one of the cards
+  in the Rummy card game, or, potentially, any other card game that
+  utilizes the French-suited card pack. Each Card object has a rank
+  and a suit, selected from among two aptly named character arrays,
+  and an ImageIcon object used to illustrate the card in a GUI.
+  This class also counts with 2 constructors and 12 different
+  instance methods: 6 instance getters ("getSuit()", getRank(),
+  "getImageFile()", "getCardImage()"), a method for expressing the
+  card as a string ("toString()", overridden from java.lang.Object),
+  5 for comparing its values to other Card objects ("equal()",
+  also overridden from java.lang.Object, "compareTo()", "equals()",
+  "sameRank()", "sameSuit()" and "offsetRank()"). 2 static getters
+  are also included, "getSuitIndex()" and "getSuitIndex()", for
+  getting the indexes of particular suits and ranks in the suit
+  and rank arrays.
+*/
+
 package proj2;
 
 // Card.java - John K. Estell - 8 May 2003

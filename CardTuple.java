@@ -1,3 +1,17 @@
+/*
+Project Rummy card game: Class MyStack
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This class specifically builds a tuple of
+  two playing cards, using the MyTuple and Card classes.
+  It only counts with constructors, and every other
+  action is managed by the MyTuple class.
+*/
+
 package proj2;
 
 public class CardTuple extends MyTuple <Card, Card> {

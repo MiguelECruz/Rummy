@@ -1,9 +1,29 @@
-// Hand.java - John K. Estell - 8 May 2003
-// last modified: 23 Febraury 2004
-// Implementation of a abstract hand of playing cards.
-// Uses the Card class.  Requires subclass for specifying
-// the specifics of what constitutes the evaluation of a hand
-// for the game being implemented.
+/*
+Project Rummy card game: Class Hand
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Template author:      John K. Estell (5/8/2003) and Dr. Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This files defines public class "Hand", which is used
+  to create representations of the hand of cards of a player in
+  a card game. The hand itself is implemented via a DefaultListModel
+  object of Card objects. Additionally, the hand has a specific
+  capacity, and all hands share a default value for that capacity.
+  As such, this class has 2 constructors, 26 instance methods and
+  2 static instances. These methods include 10 methods for adding,
+  finding, removing and replacing cards, 6 for finding and removing
+  melds (card sets and runs), one for sorting the hand ("sort()"),
+  one for verifying whether it's empty ("isEmpty()"), one getter for
+  its number of cards ("getNumberOfCards()"), one for evaluating its
+  value ("evaluateTo()"), another for comparing that value to another
+  hand's ("compareTo()"), one for expressing it as a String
+  ("toString()"), one for clearing it ("restoreHand()"), one for
+  truncating it ("truncateHand()"), and setters and getters for its
+  instance capacity or for the default capacity.
+*/
 
 package proj2;
 
@@ -20,11 +40,8 @@ import java.util.*;
  */
 public class Hand implements HandInterface {
 
-    // protected java.util.ArrayList <Card> hand = new ArrayList();
     protected javax.swing.DefaultListModel <Card> hand;
     private int handCapacity;
-
-    private JList <Card> handJList = new JList <Card> ();
 
     private static int defaultCapacity = 9;
 
@@ -408,8 +425,4 @@ public class Hand implements HandInterface {
      *   reflected in the linked JList.
      * @param list is the JList that represents the hand in the GUI.
      */
-//    public void linkJList(JList list) {
-//        this.handJList = list;
-//        list = new JList(this.hand);
-//    }
 }

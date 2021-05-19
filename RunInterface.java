@@ -1,3 +1,20 @@
+/*
+Project Rummy card game: Interface RunInterface
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This interface includes headers of the instance methods
+  which are uniquely necessary for implementing a working Run
+  class (which represents a run of cards in a card game).
+  Other methods necessary for the run's implementation are
+  inherited from MeldInterface, if they're uniquely shared
+  by the Set and Run classes, or from HandInterface, if they're
+  also shared by the Hand class.
+*/
+
 package proj2;
 
 import java.util.Collections;

@@ -1,3 +1,24 @@
+/*
+Project Rummy card game: Class RummyTabl
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This file creates a GUI for a version of the Rummy Card
+  game. The GUI is implemented through classes RummyTable, HandPanel
+  and SetPanel. This version of the game assumes that a 52 French-
+  suited card deck is being used, with 13 possible sets and 12
+  possible runs. The GUI effectivelysimulates a playing table,
+  as the "RummyTable" name suggests, and starts the game by
+  creating the game's deck (through class Deck), discard pile
+  (through Pile), spaces for the runs and sets (implemented via
+  classes Set, Run and SetPanel), and player hands (using classes
+  Hand and HandPanel). The RummyTable class follows the Observer
+  design pattern by exclusively being able to create a single instance.
+*/
+
 package proj2;
 
 import java.awt.*;

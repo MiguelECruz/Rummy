@@ -1,3 +1,24 @@
+/*
+Project Rummy card game: Class RummyTable
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This file defines public class Proj2, which creates a
+  GUI for a version of the Rummy card game (using class RummyTable)
+  and activates and follows the game procedure. For this purpose,
+  it uses the deck, discard pile and player hands created by the
+  RummyTable class. It then prints the procedure of the game,
+  starting by relaying an introduction and a brief description
+  of its ending conditions, and then by looping through the players
+  using a turn mechanism until either the deck has been emptied
+  out or one of the players has managed to remove all of their
+  cards. Finally, it announces the winner of the game or if it
+  ended in a tie.
+*/
+
 package proj2;
 
 import java.util.LinkedList;
@@ -32,12 +53,16 @@ public class Proj2 {
 
     java.util.LinkedList <Set> laidSets = new LinkedList();
 
-//    Set [] laidSets = new Set[Card.rank.length];
-
     // Array of cards that each player removed last:
 
     Card [] lastDiscarded = new Card[playerNumber];
 
+    /**
+     * Follows the procedure of the game.
+     * @param args the arguments inputted by the person who wants to compile the game.
+     * @param table the unique table instance of the RummyTable used in the game.
+     * @throws InterruptedException if the game process is interrupted.
+     */
     public Proj2(String [] args, RummyTable table) throws InterruptedException {
 
         // Initialize table, deck, pile and player array:
@@ -363,7 +388,7 @@ public class Proj2 {
     public static void main(String [] args) {
         try {
             RummyTable table = RummyTable.getTable();
-            table.setVisible(false);
+            table.setVisible(true);
 
             Proj2 rummyGame = new Proj2(args, table);
         }

@@ -1,3 +1,28 @@
+/*
+Project Rummy card game: Class Deck
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This files defines public class "Pile", each instance of
+  which is used to represent a discard pile of playing cards. Since
+  the pile needs to work as a stack data structure, this is done
+  by extending the MyStack class and using the inherited LinkedList
+  for storing Card objects. The class counts with one constructor
+  and 14 methods, all of them instance-bound: one for starting the
+  pile by adding a card from a Deck object ("startPile()"), one for
+  shuffling the pile ("shufflePile()"), 2 for adding (overloaded as
+  "addCard()") and 3 for removing ("dealCard()" and 2 overloaded
+  versions of "removeCard()") cards, 3 for peeking at the cards at
+  the extremes of the pile, 2 related to the deck's amount of cards
+  ("getSizeOfpile()" and "isEmpty()"), one for expressing it as a
+  String ("toString()") and 2 for clearing it out, with or without
+  starting it with a card dealt from a deck again (overloaded as
+  "restorePile()").
+*/
+
 package proj2;
 
 import java.util.*;
@@ -138,6 +163,14 @@ public class Pile extends MyStack <Card> implements PileInterface {
      */
     public boolean isEmpty() {
         return super.isEmpty();
+    }
+
+    /**
+     * Returns a description of the pile.
+     * @return a list of all the cards in the pile (top card first, bottom card last).
+     */
+    public String toString() {
+        return super.toString();
     }
 
     /**

@@ -1,15 +1,27 @@
-/**
- * Represents the basic functionality of a hand of cards.
- * Extensions of this class will provide the
- * definition of what constitutes a hand for that game and how hands are compared
- * to one another by overriding the <code>compareTo</code> method.
- */
+/*
+Project Rummy card game: Interface HandInterface
+- Student/programmer:   Miguel E. Cruz Molina
+- Student number:       801-16-1956
+- Course and section:   CCOM 4029-001
+- Instructor:           Dr. Patricia Ordóñez
+- Template author:      John K. Estell (5/8/2003) and Dr. Ordóñez
+- Date of last edit:    5/18/2021
+
+Summary: This interface includes headers of the most basic
+  instance methods necessary for implementing a working Hand
+  class (which represents a player's hand of cards in a card
+  game). Since the meld classes Set and Run both share a lot
+  of functionality with the implementation of a hand, this
+  class is extended by MeldInterface". It also extends the
+  Comparable interface, to guarantee that methods for comparing
+  Hands, Sets and Runs among themselves will be implemented.
+*/
 
 package proj2;
 
 import java.util.Arrays;
 
-public interface HandInterface {
+public interface HandInterface extends Comparable {
 
     /**
      * Adds a card to this hand.
