@@ -43,7 +43,7 @@ As mentioned above, the coding aspect of the project is comprised of 18 Java fil
 
 # Project compilation and main game procedure
 
-The game can be activated simply by running the `main` method in the `Proj2.java`. As the file is presently configured, the GUI is set to be visible and is fully functional, but it has no practical implications for the game, since **the gameplay itself has only been implemented for two automatized players**, which play against each other, and whose moves and turns are printed as text. An example of this output is shown in the `p2-output.txt` file in this repository. Further changes will be made to the `Proj2.java` and `RummyTable.java`files to allow the user to play against an automatized player, and to be able to use the GUI during said game, but this work is incomplete so far.
+The game can be activated simply by running the `main` method in the `Proj2.java`. As the file is presently configured, the GUI is set to be invisible but is fully functional. The invisibility constraint can be easily changed by anyone with access to the main java files, but it was left that way because, firstly, when combined with the main game procedure, the terminal throws a lot of incomprehensive errors, and secondly, because the GUI has no practical implications for the game, since **the gameplay itself has only been implemented for two automatized players**, which play against each other, and whose moves and turns are printed as text. An example of this output is shown in the `p2-output.txt` file in this repository. Further changes will be made to the `Proj2.java` and `RummyTable.java`files to allow the user to play against an automatized player, and to be able to use the GUI during said game, but this work is incomplete so far.
 
 As mentioned above, the `main` method starts by directly retrieving the unique instance of `RummyTable`, thus generating the game's deck, pile and player hands, and activating it's own constructor, which carries out the game procedure itself. Said procedure can be enumerated in the following steps:
 
@@ -79,6 +79,7 @@ This steps fundamentally make up the core of the game and are enough to implemen
 
 The following tasks and mechanisms were implemented from among the extra credit items that are listed in the instructions document:
 
+* Added card images and modified the GUI structure to make it more aesthetically pleasing and organized.
 * Modified the table simulated by the `RummyTable` class so that the game began with one card added to the pile from the deck.
 * Included implementations of runs in the game, by including files `Run.java` and `RunInterface.java`.
 * Made both `SetInterface` and `RunInterface` subclasses of another interface `MeldInterface`.
@@ -91,7 +92,7 @@ I would, however, like to take this section as an opportunity to acknowledge and
 
 # Deadline disclaimer
 
-The core of this project was uploaded to this repository on Monday, March 17th, 2021, and the final edit to the main files was done on the night of Tuesday, March 18th, 2021. Both dates are one and two days after the final due date of this project, which was last Sunday, March 15th, 2021. I did have most of the project files on a functional state by the end of the established deadline, but decided against adding them to the repository it as I found that the implementation of the game procedure in the `Proj2.java` file required more work. I wanted to notify this to be as upfront as possible with the instructor, which, as has been said before, has been continously considerate with regards to project deadlines during this course.
+The core of this project was uploaded to this repository on Monday, March 17th, 2021, and the final edit to the main files was done on the morning of Wednesday, March 19th, 2021, three days after the final due date of this project, which was last Sunday, March 15th, 2021. I did have most of the project files on a functional state by the end of the established deadline, but decided against adding them to the repository, as I found that the implementation of the game procedure in the `Proj2.java` file required more work. I wanted to notify this to be as upfront as possible with the instructor, which, as has been said before, has been continously considerate with regards to project deadlines during this course.
 
 # References 
 
