@@ -76,6 +76,38 @@ public interface CardInterface extends Comparable {
      * @return a negative integer, zero, or a positive integer if this card is
      *   less than, equal to, or greater than the referenced card, respectively.
      */
-    public int compareTo( Object otherCardObject );
+    public int compareTo(Object otherCardObject);
+
+    /**
+     * Compares two cards and returns 'true' if they are equal.
+     * @param otherCardObject the other card.
+     * @return
+     */
+    public boolean equals(Object otherCardObject);
+
+    /**
+     * Compares two cards and returns 'true' if they have the same suit and
+     *   (by comparing the indexes of their suit values).
+     * @param otherCardObject the other card.
+     * @return
+     */
+    public boolean sameSuit(Object otherCardObject);
+
+    /**
+     * Compares two cards and returns 'true' if they have the same rank and
+     *   (by comparing the indexes of their rank values).
+     * @param otherCardObject the other card.
+     * @return
+     */
+    public boolean sameRank(Object otherCardObject);
+
+    /**
+     * Returns the difference in the ranks of two cards.
+     * @param otherCardObject the other card.
+     * @return the index of this card's rank
+     *   minus the index of the other one's rank.
+     */
+    public int offsetRank(Object otherCardObject);
+
 
 }

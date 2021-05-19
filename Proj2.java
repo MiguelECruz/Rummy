@@ -1,5 +1,8 @@
 package proj2;
 
+import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
+
 public class Proj2 {
 
     // Default number of players:
@@ -23,21 +26,19 @@ public class Proj2 {
 
     int [] points = new int[playerNumber];
 
-    // Array of set flags (true only for each set that
-    //   has been laid down so far):
+    // Linked lists of laid down runs and sets:
 
-    Set [] laidSets = new Set[Card.rank.length];
+    java.util.LinkedList <Run> laidRuns = new LinkedList();
+
+    java.util.LinkedList <Set> laidSets = new LinkedList();
+
+//    Set [] laidSets = new Set[Card.rank.length];
 
     // Array of cards that each player removed last:
 
     Card [] lastDiscarded = new Card[playerNumber];
 
-    // Linked list of tuples with card limits of each run
-    //   that has been laid down so far:
-
-    java.util.LinkedList <CardTuple> laidRuns = new java.util.LinkedList <> ();
-
-    public Proj2(String [] args, RummyTable table) {
+    public Proj2(String [] args, RummyTable table) throws InterruptedException {
 
         // Initialize table, deck, pile and player array:
 
@@ -91,6 +92,8 @@ public class Proj2 {
         System.out.print("\n");
         while (!emptyHand && !emptyDeck) {
 
+            TimeUnit.SECONDS.sleep(2);
+
             // State whose turn is it and display initial hand:
 
             System.out.println("\nPlayer #" + (turn + 1) + "'s turn: ");
@@ -121,7 +124,7 @@ public class Proj2 {
             run = players[turn].removeRun();
             if (run != null) {
                 System.out.println("\tLaid run of suit " + run.getSuit() + ": " + run);
-                laidRuns.add(new CardTuple(run.getCard(0), run.getCard(run.getNumberOfCards() - 1)));
+                laidRuns.add(run);
             }
             else
                 System.out.println("\tFound no runs in the hand.");
@@ -132,7 +135,7 @@ public class Proj2 {
             set = players[turn].removeSet();
             if (set != null) {
                 System.out.println("\tLaid set of rank " + set.getRank() + ": " + set);
-                laidSets[Card.getRankIndex(set.getRank())] = set;
+                laidSets.add(set);
             }
             else
                 System.out.println("\tFound no sets in the hand.");
@@ -158,7 +161,7 @@ public class Proj2 {
             //   discard it, add it to the pile and print its value:
 
             card = removeCard(players[turn], turn);
-            if (card != null) System.out.println("\tDiscarded card to the hand: " + card);
+            if (card != null) System.out.println("\tDiscarded card to the pile: " + card);
             if (!players[turn].isEmpty()) System.out.println("\tHand now: " + players[turn]);
             else System.out.println("\tHand is now empty!");
 
@@ -218,6 +221,15 @@ public class Proj2 {
             }
         }
 
+        // Print all the runs and sets which were laid down during the game:
+
+        // System.out.println("\nRuns laid down throughout the game:");
+        // System.out.println(laidRuns);
+        // System.out.println("Sets laid down throughout the game:");
+        // System.out.println(laidSets);
+
+        // Print who's the winner, or if the game ended in a tie:
+
         if (tie)
             System.out.println("\nIt's a tie!");
         else
@@ -243,17 +255,14 @@ public class Proj2 {
      */
     private Card addCard(Hand player, int index) {
         Card addedCard;
-        if (!pile.isEmpty() && (lastDiscarded != null || !pile.peek().equals(lastDiscarded[index]))) {
+        if (!pile.isEmpty() && !pile.peek().equals(lastDiscarded[index])) {
             Card topCard = pile.peekTopCard();
             boolean greaterRank;
             boolean runPotential;
             for (int i = 0; i < player.getNumberOfCards(); i++) {
-                greaterRank = Card.getRankIndex(player.getCard(i).getRank())
-                            > Card.getRankIndex(topCard.getRank());
-                runPotential = Card.getRankIndex(player.getCard(i).getRank()) + 1
-                            == Card.getRankIndex(topCard.getRank())
-                            && Card.getSuitIndex(player.getCard(i).getSuit())
-                            == Card.getSuitIndex(topCard.getSuit());
+                greaterRank = player.getCard(i).offsetRank(topCard) > 0;
+                runPotential = player.getCard(i).sameSuit(topCard)
+                            && player.getCard(i).offsetRank(topCard) == -1;
                 if (greaterRank || runPotential) {
                     addedCard = pile.dealCard();
                     player.addCard(addedCard);
@@ -275,16 +284,12 @@ public class Proj2 {
      */
     private Card removeCard(Hand player, int index) {
         if (!player.isEmpty()) {
-            Card discardedCard = null;
-            int cardRank; int topRank = 0;
+            Card discardedCard = player.getCard(0);
             for (int i = 0; i < player.getNumberOfCards(); i++) {
-                cardRank = Card.getRankIndex(player.getCard(i).getRank());
-                if (cardRank > topRank) {
-                    topRank = cardRank;
+                if (player.getCard(i).offsetRank(discardedCard) > 0) {
                     discardedCard = player.getCard(i);
                 }
             }
-            if (topRank == 0) discardedCard = player.getCard(0);
             discardedCard = player.removeCard(discardedCard);
             table.pile.addCard(discardedCard);
             lastDiscarded[index] = discardedCard;
@@ -305,12 +310,12 @@ public class Proj2 {
     private MyStack <Card> layToSet(Hand player) {
         MyStack <Card> discardedCards = new MyStack<>();
         Card discardedCard;
-        for (int i = laidSets.length - 1; i >= 0; i--)
-            if (laidSets[i] != null && laidSets[i].getNumberOfCards() == 3)
+        for (Set laidSet : laidSets)
+            if (laidSet.getNumberOfCards() == 3)
                 for (int j = 0; j < player.getNumberOfCards(); j++)
-                    if (Card.getRankIndex(player.getCard(j).getRank()) == i) {
+                    if (Card.getRankIndex(player.getCard(j).getRank()) == laidSet.getRankIndex()) {
                         discardedCard = player.removeCard(j);
-                        laidSets[i].addCard(discardedCard);
+                        laidSet.addCard(discardedCard);
                         discardedCards.push(discardedCard);
                     }
         return discardedCards;
@@ -330,21 +335,18 @@ public class Proj2 {
         Card discardedCard;
         Card runFirstCard;
         Card runLastCard;
-        for (int i = 0; i < laidRuns.size(); i++) {
-            runFirstCard = laidRuns.get(i).element1;
-            runLastCard  = laidRuns.get(i).element2;
+        for (Run laidRun : laidRuns) {
+            runFirstCard = laidRun.getFirstCard();
+            runLastCard = laidRun.getLastCard();
             for (int j = 0; j < player.getNumberOfCards(); j++) {
                 discardedCard = player.getCard(j);
-                if (Card.getSuitIndex(discardedCard.getSuit())
-                        == Card.getSuitIndex(runFirstCard.getSuit())) {
-                    boolean addAsFirst = Card.getRankIndex(discardedCard.getRank())
-                            == Card.getRankIndex(runFirstCard.getRank()) - 1;
-                    boolean addAsLast  = Card.getRankIndex(discardedCard.getRank())
-                            == Card.getRankIndex(runLastCard.getRank()) + 1;
+                if (discardedCard.sameSuit(runFirstCard)) {
+                    boolean addAsFirst = discardedCard.offsetRank(runFirstCard) == -1;
+                    boolean addAsLast = discardedCard.offsetRank(runLastCard) == 1;
                     if (addAsFirst || addAsLast) {
                         discardedCard = player.removeCard(j);
-                        if (addAsFirst) laidRuns.get(i).element1 = discardedCard;
-                        else laidRuns.get(i).element2 = discardedCard;
+                        if (addAsFirst) laidRun.addAsFirst(discardedCard);
+                        else laidRun.addAsLast(discardedCard);
                         discardedCards.push(discardedCard);
                     }
                 }
@@ -359,10 +361,14 @@ public class Proj2 {
      * @param args the arguments needed to run the game.
      */
     public static void main(String [] args) {
+        try {
+            RummyTable table = RummyTable.getTable();
+            table.setVisible(false);
 
-        RummyTable table = RummyTable.getTable();
-        table.setVisible(false);
-
-        Proj2 rummyGame = new Proj2(args, table);
+            Proj2 rummyGame = new Proj2(args, table);
+        }
+        catch (InterruptedException e) {
+            System.out.println("Interrupted while running");
+        }
     }
 }

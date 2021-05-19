@@ -182,7 +182,7 @@ public class Hand implements HandInterface {
         for (int i = ranks.length - 1; i >= 0; i--) {
 
             set = new Set(ranks[i]);
-            for (int j = 0; j < suits.length; j++) {
+            for (int j = suits.length - 1; j >= 0; j--) {
                 if (this.containsCard(ranks[i], suits[j]))
                     set.addCard(hand.elementAt(findCard(ranks[i], suits[j])));
             }
@@ -213,9 +213,8 @@ public class Hand implements HandInterface {
                 prevCard = this.getCard(i + 1);
                 thisCard = this.getCard(i);
 
-                prevComparison = (prevCard.getSuit() == thisCard.getSuit()
-                        && Card.getRankIndex(prevCard.getRank()) - 1
-                        == Card.getRankIndex(thisCard.getRank()));
+                prevComparison = (prevCard.sameSuit(thisCard)
+                        && prevCard.offsetRank(thisCard) == 1);
                 if (prevComparison)
                     count++;
                 if (count == 2 && prevComparison) {
@@ -317,8 +316,7 @@ public class Hand implements HandInterface {
 
         for (int i = 0; i < this.getNumberOfCards(); i++) {
             Card c = this.getCard(i);
-            int cardValue = Card.getRankIndex(c.getRank()) - Card.getRankIndex('A') + 1;
-            // ^not sure why "Card.getRankIndex('a')" is necessary here.
+            int cardValue = Card.getRankIndex(c.getRank()) + 1;
             if (cardValue > 10)
                 cardValue = 10;
             value += cardValue;

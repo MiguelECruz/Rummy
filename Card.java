@@ -150,10 +150,9 @@ public class Card implements CardInterface {
     }
 
     /**
-     * Compares two cards for the purposes of sorting.
-     * Cards are ordered by their
-     * rank value.
-     * @param otherCardObject the other card
+     * Compares two cards for the purposes of sorting. Cards should be ordered by
+     *   their suit index as defined in the card class's static suit array, and then
+     *   by their rank index as defined in that same class's rank array.
      * @return a negative integer, zero, or a positive integer is this card is
      * less than, equal to, or greater than the referenced card.
      */
@@ -169,13 +168,56 @@ public class Card implements CardInterface {
     }
 
     /**
-     *
+     * Compares two cards and returns 'true' if they have the same suit and
+     *   rank (by comparing the indexes of those values).
+     * @param otherCardObject the other card.
+     * @return whether they have the same rank and suit.
      */
     public boolean equals(Object otherCardObject) {
+        if (otherCardObject != null) {
+            return sameSuit(otherCardObject) && sameRank(otherCardObject);
+        }
+        return false;
+    }
+
+    /**
+     * Compares two cards and returns 'true' if they have the same suit and
+     *   (by comparing the indexes of their suit values).
+     * @param otherCardObject the other card.
+     * @return whether they have the same suit.
+     */
+    public boolean sameSuit(Object otherCardObject) {
 
         Card otherCard = (Card) otherCardObject;
 
-        return getSuitIndex(suitValue) == getSuitIndex(otherCard.getSuit())
-            && getRankIndex(rankValue) == getRankIndex(otherCard.getRank());
+        return getSuitIndex(suitValue) == getSuitIndex(otherCard.getSuit());
     }
+
+    /**
+     * Compares two cards and returns 'true' if they have the same rank and
+     *   (by comparing the indexes of their rank values).
+     * @param otherCardObject the other card.
+     * @return whether they have the same rank.
+     */
+    public boolean sameRank(Object otherCardObject) {
+
+        Card otherCard = (Card) otherCardObject;
+
+        return getRankIndex(rankValue) == getRankIndex(otherCard.getRank());
+    }
+
+    /**
+     * Returns the difference in the ranks of two cards.
+     * @param otherCardObject the other card.
+     * @return the index of this card's rank
+     *   minus the index of the other one's rank.
+     */
+    public int offsetRank(Object otherCardObject) {
+
+        Card otherCard = (Card) otherCardObject;
+
+        return getRankIndex(rankValue) - getRankIndex(otherCard.getRank());
+    }
+
+
 }

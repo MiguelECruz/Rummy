@@ -152,6 +152,44 @@ public class Run implements RunInterface {
     }
 
     /**
+     * Adds the received card as the first card in the run.
+     * @param card card to be added as first.
+     */
+    public void addAsFirst(Card card) {
+        addCard(0, card);
+    }
+
+    /**
+     * Adds the received card as the last card in the run.
+     * @param card card to be added as last..
+     */
+    public void addAsLast(Card card) {
+        addCard(card);
+    }
+
+    /**
+     * Returns the value of the first card in the run.
+     * @return the first card, without removing it.
+     */
+    public Card getFirstCard() {
+        if (!isEmpty()) {
+            return getCard(0);
+        }
+        return null;
+    }
+
+    /**
+     * Returns the value of the last card in the run.
+     * @return the last card, without removing it.
+     */
+    public Card getLastCard() {
+        if (!isEmpty()) {
+            return getCard(getNumberOfCards() - 1);
+        }
+        return null;
+    }
+
+    /**
      * Returns suit of the run.
      * @return char representing the run's suit as defined in Card class.
      */

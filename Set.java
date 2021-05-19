@@ -2,11 +2,10 @@ package proj2;
 
 import java.util.*;
 
-public class Set implements SetInterface {
+public class Set extends MyStack <Card> implements SetInterface {
 
     char rank;
-    int rankIndex;
-    protected ArrayList <Card> set = new ArrayList();
+    protected LinkedList <Card> set = super.stack;
     private int setCapacity;
 
     static private int defaultSetCapacity = Card.suit.length;
@@ -16,9 +15,8 @@ public class Set implements SetInterface {
      *   number of cards of the specified rank.
      * */
     public Set(char rank, int capacity) {
-        set.ensureCapacity(capacity);
+        super();
         this.setHandCapacity(capacity);
-        rankIndex = Card.getRankIndex(rank);
         this.rank = rank;
     }
 
@@ -38,7 +36,7 @@ public class Set implements SetInterface {
      */
     public void addCard(Card card) {
         if (this.rank == card.getRank())
-            set.add(card);
+            super.push(card);
     }
 
     /**
@@ -48,7 +46,8 @@ public class Set implements SetInterface {
      * @param card card to be added to the set at the specified index.
      * */
     public void addCard(int index, Card card) {
-        set.add(index, card);
+        if (this.rank == card.getRank())
+            set.add(index, card);
     }
 
     /**
@@ -164,7 +163,7 @@ public class Set implements SetInterface {
      @return int corresponding to index of rank as defined in Card class.
      */
     public int getRankIndex() {
-        return rankIndex;
+        return Card.getRankIndex(rank);
     }
 
     /**
@@ -212,7 +211,7 @@ public class Set implements SetInterface {
     public int evaluateHand() {
         int value = 0;
 
-        int cardValue = rankIndex - Card.getRankIndex('a') + 1;
+        int cardValue = getRankIndex() + 1;
         if (cardValue > 10)
             cardValue = 10;
         value = getNumberOfCards() * cardValue;
@@ -229,7 +228,7 @@ public class Set implements SetInterface {
      */
     public int compareTo(Object otherHandObject) {
         Set otherSet = (Set) otherHandObject;
-        return rankIndex - otherSet.rankIndex;
+        return getRankIndex() - otherSet.getRankIndex();
     }
 
     /**
