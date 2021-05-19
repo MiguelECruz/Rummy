@@ -10,7 +10,7 @@ Summary: This file creates a GUI for a version of the Rummy Card
   game. The GUI is implemented through classes RummyTable, HandPanel
   and SetPanel. This version of the game assumes that a 52 French-
   suited card deck is being used, with 13 possible sets and 12
-  possible runs. The GUI effectivelysimulates a playing table,
+  possible runs. The GUI effectively simulates a playing table,
   as the "RummyTable" name suggests, and starts the game by
   creating the game's deck (through class Deck), discard pile
   (through Pile), spaces for the runs and sets (implemented via
@@ -38,51 +38,57 @@ public class RummyTable extends JFrame implements ActionListener {
     final static int defaultNumberOfPlayers = 2;
 
     // Unique instance of RummyTable class:
+
     private static RummyTable table = new RummyTable();
 
-    // GUI JPanels for players:
-    JPanel playerPanel1;
-    JPanel playerPanel2;
-
-    // GUI JPanel and JLabels for deck and pile:
-    JPanel deckPiles;
-    JLabel deckLabel;
-    JLabel pileLabel;
-
-    JList p1HandPile;
-    JList p2HandPile;
+    // Deck and pile used during the game:
 
     Deck deck;
     Pile pile;
 
-    Hand [] players;
-    Hand [] melds;
+    // GUI JPanel and JLabels for deck and pile:
 
-    SetPanel [] setPanels = new SetPanel[Card.rank.length];
+    JPanel deckPiles;
 
-    HandPanel p1Panel;
-    HandPanel p2Panel;
+    JLabel deckLabel;
+    JLabel pileLabel;
 
-    JLabel topOfStack;
+    JLabel topOfPile;
     JLabel deckPile;
 
-    JButton p1Stack;
-    JButton p2Stack;
+    // Array of player's hands:
 
-    JButton p1Deck;
-    JButton p2Deck;
+    Hand [] players;
 
-    JButton p1Lay;
-    JButton p2Lay;
+    // Arrays of (1.) panels for players, (2.) lists of players' hands,
+    //   and (3.) buttons of each player's panel:
 
-    JButton p1LayOnStack;
-    JButton p2LayOnStack;
+    HandPanel [] playerPanels = new HandPanel[defaultNumberOfPlayers];
 
-//    private void deal(Card [] cards)
-//    {
-//        for(int i = 0; i < cards.length; i++)
-//            cards[i] = deck.dealCard();
-//    }
+    JList [] playerLists = new JList[defaultNumberOfPlayers];
+
+    JButton [] pileButtons = new JButton[defaultNumberOfPlayers];
+    JButton [] deckButtons = new JButton[defaultNumberOfPlayers];
+    JButton [] runButtons = new JButton[defaultNumberOfPlayers];
+    JButton [] setButtons = new JButton[defaultNumberOfPlayers];
+    JButton [] layToRunButtons = new JButton[defaultNumberOfPlayers];
+    JButton [] layToSetButtons = new JButton[defaultNumberOfPlayers];
+    JButton [] discardButtons = new JButton[defaultNumberOfPlayers];
+
+    // Boolean flag to notify that a player's turn has ended:
+
+    boolean turnCompleted = false;
+
+    // Linked lists of sets and runs laid down throughout the game:
+
+    java.util.LinkedList <Run> laidRuns = new LinkedList();
+    java.util.LinkedList <Set> laidSets = new LinkedList();
+    int [] runOffset = new int[Card.suit.length];
+
+    // Arrays of panels for sets and runs:
+
+    SetPanel [] setPanels = new SetPanel[Card.rank.length];
+    RunPanel [] runPanels = new RunPanel[((Card.rank.length + 1)/4)*Card.suit.length];
 
     /**
      * Creates a new hand initialized to the appropiate capacity
@@ -124,203 +130,214 @@ public class RummyTable extends JFrame implements ActionListener {
     }
 
     /**
+     * Creates a different HandPanel object for each player.
+     * @param players the array of players in the game.
+     */
+    private void createHandPanels(Hand [] players)
+    {
+        JLabel playerLabel;
+        for (int i = 0; i < players.length; i++) {
+
+            // Generate the appropiate label for the panel:
+
+            playerLabel = new JLabel("Player #" + (i + 1));
+
+            // Create a list with the player's hand:
+
+            playerLists[i] = new JList(players[i].hand);
+
+            // Create buttons for each action that the player can do:
+
+            pileButtons[i] = new JButton("Deal card from pile");
+            pileButtons[i].addActionListener(this);
+
+            deckButtons[i] = new JButton("Deal card from deck");
+            deckButtons[i].addActionListener(this);
+
+            runButtons[i] = new JButton("Lay down run in table");
+            runButtons[i].addActionListener(this);
+
+            setButtons[i] = new JButton("Lay down set in table");
+            setButtons[i].addActionListener(this);
+
+            layToRunButtons[i] = new JButton("Add card to run");
+            layToRunButtons[i].addActionListener(this);
+
+            layToSetButtons[i] = new JButton("Add card to set");
+            layToSetButtons[i].addActionListener(this);
+
+            discardButtons[i] = new JButton("Discard card");
+            discardButtons[i].addActionListener(this);
+
+            // Create new HandPanel object for the player:
+
+            playerPanels[i] = new HandPanel(playerLabel, playerLists[i], pileButtons[i],
+                    deckButtons[i], runButtons[i], setButtons[i], layToRunButtons[i],
+                    layToSetButtons[i], discardButtons[i]);
+        }
+    }
+
+    /**
      * Creates and manages the table for the Rummy game.
      */
     private RummyTable() {
 
-        // CALL GUI CONSTRUCTOR AND SET LAYOUT AND SIZE:
+        // Call GUI constructor and set layout and size:
 
         super("The Card Game of the Century");
 
         setLayout(new BorderLayout());
         setSize(1200,700);
+
+        // The constructor should end once the GUI window is closed:
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        // CREATE, FILL AND SHUFFLE DECK:
+        // Create, fill and shuffle the game's deck:
 
         deck = new Deck();
         deck.fillDeck(Card.suit, Card.rank);
         deck.shuffleDeck();
 
-        // CREATE PILE:
+        // Create the game's pile and add the first card from the deck to it:
 
         pile = new Pile();
+        pile.startPile(deck);
 
-        // CREATE top PANEL WITH setPanels 0 - 3:
-
-        JPanel top = new JPanel();
-
-        for (int i = 0; i < Card.rank.length; i++)
-            setPanels[i] = new SetPanel(Card.getRankIndex(Card.rank[i]));
-
-        top.add(setPanels[0]);
-        top.add(setPanels[1]);
-        top.add(setPanels[2]);
-        top.add(setPanels[3]);
-
-        // CREATE PANEL FOR PLAYER #1 AND ADDING top TO IT:
-
-        playerPanel1 = new JPanel();
-        playerPanel1.add(top);
-
-        // ADD PANEL FOR PLAYER #2 TO NORTH OF LAYOUT:
-
-        add(playerPanel1, BorderLayout.NORTH);
-
-        // CREATE bottom PANEL WITH setPanels 4 - 8:
-
-        JPanel bottom = new JPanel();
-
-        bottom.add(setPanels[4]);
-        bottom.add(setPanels[5]);
-        bottom.add(setPanels[6]);
-        bottom.add(setPanels[7]);
-        bottom.add(setPanels[8]);
-
-        // CREATE PANEL FOR PLAYER #2, ADDING bottom TO IT:
-
-        playerPanel2 = new JPanel();
-        playerPanel2.add(bottom);
-
-        // ADD PANEL FOR PLAYER #2 TO SOUTH OF LAYOUT:
-
-        add(playerPanel2, BorderLayout.SOUTH);
-
-        // CREATE middle PANEL WITH 1 ROW AND 3 COLUMNS:
-
-        JPanel middle = new JPanel(new GridLayout(1,3));
-
-        // CREATE BUTTONS FOR PLAYER #1'S PANEL:
-
-        p1Stack = new JButton("Stack");             p1Stack.addActionListener(this);
-        p1Deck = new JButton("Deck");               p1Deck.addActionListener(this);
-        p1Lay = new JButton("Lay");                 p1Lay.addActionListener(this);
-        p1LayOnStack = new JButton("LayOnStack");   p1LayOnStack.addActionListener(this);
-
-        // CREATE HANDS FOR BOTH PLAYERS, FILL THEM AND SORT THEM:
+        // Create hands for both players, fill them and sort them:
 
         players = new Hand[defaultNumberOfPlayers];
+
         createPlayers(players);
         dealToPlayers(players);
-
 
         players[0].sort();
         players[1].sort();
 
-        // ADD CARDS OF PLAYER #1'S HAND TO JList OBJECT:
+        // Determine how many rows of set panels and runs have to be added,
+        //   and construct corresponding JPanels:
 
-        p1HandPile = new JList(players[0].hand);
+        int numSets = Card.rank.length;
 
-        // ADD PLAYER #1'S HandPanel TO middle PANEL:
+        int rowsSets = numSets/4;
+        if (numSets % 4 != 0)
+            rowsSets++;
 
-        p1Panel = new HandPanel("Player 1", p1HandPile, p1Stack, p1Deck, p1Lay, p1LayOnStack);
-        middle.add(p1Panel);
+        JPanel setPanel = new JPanel(new GridLayout(rowsSets, 1));
 
-        // CREATE deckPiles PANEL FOR DECK AND PILE:
+        int numRuns = ((Card.rank.length + 1)/4)*Card.suit.length;
+
+        int rowsRuns = numRuns/6;
+        if (numRuns % 6 != 0)
+            rowsRuns++;
+
+        JPanel runPanel = new JPanel(new GridLayout(rowsRuns, 1));
+
+        // In a loop, create a JPanel for each 4 sets, then create and add
+        //   a SetPanel for each set to it, and add the JPanel to meldPanel:
+
+        JPanel setRow; JLabel setLabel;
+        for (int i = 0, k = 0; i < rowsSets; i++) {
+            setRow = new JPanel();
+            for (int j = 0; j < 4 && k < numSets; j++, k++) {
+                setPanels[k] = new SetPanel(Card.getRankIndex(Card.rank[k]));
+                setLabel = new JLabel("Set of rank: " + Card.rank[k]);
+                setRow.add(setLabel); setRow.add(setPanels[k]);
+            }
+            setPanel.add(setRow);
+        }
+
+        // In a loop, create a JPanel for each 6 runs, then create and add
+        //   a RunPanel for each run to it, and add the JPanel to meldPanel:
+
+        JPanel runRow; JLabel runLabel;
+        for (int i = 0, k = 0; i < rowsRuns; i++) {
+            runRow = new JPanel();
+            for (int j = 0, h = 0; j < 6 && k < numRuns; h++, k++, j++) {
+                h %= Card.suit.length;
+                runPanels[k] = new RunPanel(Card.getSuitIndex(Card.suit[h]));
+                runLabel = new JLabel("Run #" + (k + 1));
+                runRow.add(runLabel); runRow.add(runPanels[k]);
+            }
+            runPanel.add(runRow);
+        }
+
+        // Add the set and run panels to the SOUTH and NORTH sections of the layout, respectively:
+
+        add(setPanel, BorderLayout.SOUTH);
+        add(runPanel, BorderLayout.NORTH);
+
+        // For each player, generate a different HandPanel object:
+
+        createHandPanels(players);
+
+        // Create middle panel with 1 row and 3 columns:
+
+        JPanel middle = new JPanel(new GridLayout(1,3));
+
+        // Add player #1's panel to the middle panel:
+
+        middle.add(playerPanels[0]);
+
+        // Create deckPiles panel for deck and pile:
 
         deckPiles = new JPanel();
         deckPiles.setLayout(new BoxLayout(deckPiles, BoxLayout.Y_AXIS));
         deckPiles.add(Box.createGlue());
 
-        // CREATE left PANEL:
+        // Create left panel and add label for pile:
 
         JPanel left = new JPanel();
         left.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        // CREATE pileLabel AND ADD IT TO left PANEL:
-
-        pileLabel = new JLabel("Stack");
+        pileLabel = new JLabel("Pile");
         pileLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
         left.add(pileLabel);
 
-        // CREATE topOfStack LABEL AND ADD IT TO left PANEL:
+        // Create image for pile and add it to the left panel:
 
-        topOfStack = new JLabel();
-        topOfStack.setIcon(new ImageIcon(Card.directory + "blank.gif"));
-        topOfStack.setAlignmentY(Component.CENTER_ALIGNMENT);
-        left.add(topOfStack);
+        topOfPile = new JLabel();
+        topOfPile.setIcon(pile.peekTopCard().getCardImage());
+        topOfPile.setAlignmentY(Component.CENTER_ALIGNMENT);
+        left.add(topOfPile);
 
-        // ADD left PANEL TO deckPiles PANEL:
+        // Add left panel to the deckPiles panel:
 
         deckPiles.add(left);
         deckPiles.add(Box.createGlue());
 
-        // CREATE right PANEL:
+        // Create right panel and add label for deck:
 
         JPanel right = new JPanel();
         right.setAlignmentY(Component.CENTER_ALIGNMENT);
-
-        // CREATE deckLabel AND ADD IT TO right PANEL:
 
         deckLabel = new JLabel("Deck");
         deckLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
         right.add(deckLabel);
 
-        // CREATE deckPile LABEL AND ADD IT TO right PANEL:
+        // Create image for pile and add it to the left panel:
 
         deckPile = new JLabel();
         deckPile.setIcon(new ImageIcon(Card.directory + "b.gif"));
         deckPile.setAlignmentY(Component.CENTER_ALIGNMENT);
         right.add(deckPile);
 
-        // ADD right PANEL TO deckPiles PANEL:
+        // Add left panel to the deckPiles panel:
 
         deckPiles.add(right);
         deckPiles.add(Box.createGlue());
 
-        // ADD deckPiles PANEL TO middle PANEL:
+        // Add deckPiles panel to middle panel:
 
         middle.add(deckPiles);
 
-        // CREATING BUTTONS FOR PLAYER #2'S PANEL:
+        // Add player #2's panel to the middle panel:
 
-        p2Stack = new JButton("Stack");             p2Stack.addActionListener(this);
-        p2Deck = new JButton("Deck");               p2Deck.addActionListener(this);
-        p2Lay = new JButton("Lay");                 p2Lay.addActionListener(this);
-        p2LayOnStack = new JButton("LayOnStack");   p2LayOnStack.addActionListener(this);
+        middle.add(playerPanels[1]);
 
-        // ADD CARDS OF PLAYER #2'S HAND TO JList OBJECT:
-
-        p2HandPile = new JList(players[1].hand);
-
-        // ADD PLAYER #2'S HandPanel TO middle PANEL:
-
-        p2Panel = new HandPanel("Player 2", p2HandPile, p2Stack, p2Deck, p2Lay, p2LayOnStack);
-        middle.add(p2Panel);
-
-        // ADD middle PANEL TO CENTER OF LAYOUT:
+        // Add middle panel to the CENTER zone of the layout:
 
         add(middle, BorderLayout.CENTER);
-
-        // CREATE leftBorder PANEL WITH 2 ROWS AND 1 COLUMN:
-
-        JPanel leftBorder = new JPanel(new GridLayout(2,1));
-
-        // ADD setPanels 9 - 10 TO leftBorder PANEL:
-
-        setPanels[9].setLayout(new BoxLayout(setPanels[9], BoxLayout.Y_AXIS));
-        setPanels[10].setLayout(new BoxLayout(setPanels[10], BoxLayout.Y_AXIS));
-        leftBorder.add(setPanels[9]);
-        leftBorder.add(setPanels[10]);
-
-        // ADD leftBorder PANEL TO WEST OF LAYOUT:
-
-        add(leftBorder, BorderLayout.WEST);
-
-        // CREATE rightBorder PANEL WITH 2 ROWS AND 1 COLUMN:
-
-        JPanel rightBorder = new JPanel(new GridLayout(2,1));
-
-        // ADD setPanels 11 - 12 TO leftBorder PANEL:
-
-        setPanels[11].setLayout(new BoxLayout(setPanels[11], BoxLayout.Y_AXIS));
-        setPanels[12].setLayout(new BoxLayout(setPanels[12], BoxLayout.Y_AXIS));
-        rightBorder.add(setPanels[11]);
-        rightBorder.add(setPanels[12]);
-
-        // ADD rightBorder PANEL TO WEST OF LAYOUT:
-
-        add(rightBorder, BorderLayout.EAST);
     }
 
     /**
@@ -337,145 +354,326 @@ public class RummyTable extends JFrame implements ActionListener {
      *   the GUI created by the table.
      * @param e the action.
      */
-    public void actionPerformed(ActionEvent e)
-    {
-        // GET SOURCE OF THE ACTION:
+    public void actionPerformed(ActionEvent e) {
+        // Get source of the action:
 
         Object src = e.getSource();
 
-        // IF IT WAS ONE OF THE DECK BUTTONS, DEAL CARD AND ADD TO
-        //   CORRESPONDING PLAYER'S HAND.
+        // Determine which one of the player's sent it:
 
-        if(p1Deck == src || p2Deck == src){
-
-            Card card = deck.dealCard();
-
-            if (card != null){
-                if(src == p1Deck)
-                    players[0].addCard(card);
-                else
-                    players[1].addCard(card);
+        Hand player = null;
+        int x = 0;
+        for (int i = 0; i < players.length; i++)
+            if (deckButtons[i] == src
+                    || pileButtons[i] == src
+                    || setButtons[i] == src
+                    || runButtons[i] == src
+                    || layToRunButtons[i] == src
+                    || layToSetButtons[i] == src
+                    || discardButtons[i] == src) {
+                player = players[i];
+                x = i;
             }
-            if(deck.getSizeOfDeck() == 0)
-                deckPile.setIcon(new ImageIcon(Card.directory + "blank.gif"));
-        }
 
-        // IF IT WAS ONE OF THE STACK BUTTONS, REMOVE TOP CARD FROM STACK
-        //   AND ADD IT TO CORRESPONDING PLAYER'S CARD.
+        // Print player's "turn" and current hand:
 
-        if(p1Stack == src || p2Stack == src){
+        System.out.println("\nPlayer #" + (x + 1) + "'s turn: ");
+        System.out.println("\tHand at the start: " + player);
 
-            Card card = pile.dealCard();
+        // If it was sent from a deck button, deal card and add to
+        //   corresponding player's hand.
 
-            if(card != null){
-
-                Card topCard = pile.peek();
-                if (topCard != null)
-                    topOfStack.setIcon(topCard.getCardImage());
-                else
-                    topOfStack.setIcon(new ImageIcon(Card.directory + "blank.gif"));
-
-                if(p1Stack == src)
-                    players[0].addCard(card);
-                else
-                    players[1].addCard(card);
-            }
-        }
-
-        // IF IT WAS PLAYER #1'S LAY-SET BUTTON, REMOVE
-        //   ALL CARDS(?) FROM PLAYER #1'S HAND.
-
-        if(p1Lay == src){
-            int [] cards = p1HandPile.getSelectedIndices();
-            if (cards != null)
-                for(int i = 0; i < cards.length; i++)
-                {
-                    Card card = players[0].getCard(cards[i]);
-                    layCard(card); players[0].removeCard(card);
+        if (deckButtons[x] == src) {
+            if (player.getNumberOfCards() <= 9) {
+                Card card = deck.dealCard();
+                if (card != null) {
+                    player.addCard(card);
+                    System.out.println("\tAdded card to the hand from the deck: " + card);
                 }
-        }
-
-        // IF IT WAS PLAYER #2'S LAY-SET BUTTON, REMOVE
-        //   ALL CARDS(?) FROM PLAYER #2'S HAND.
-
-        if(p2Lay == src){
-            int [] cards = p2HandPile.getSelectedIndices();
-            if (cards != null)
-                for(int i = 0; i < cards.length; i++)
-                {
-                    Card card = players[1].getCard(cards[i]);
-                    layCard(card); players[1].removeCard(card);
-                }
-        }
-
-        // IF IT WAS PLAYER #1'S LAY-ON-STACK BUTTON, REMOVE CARD
-        //   FROM HAND AND ADD IT TO STACK.
-
-        if(p1LayOnStack == src){
-            int [] cards  = p1HandPile.getSelectedIndices();
-            if (cards.length == 1)
-            {
-                Card card = players[0].getCard(cards[0]);
-                pile.addCard(card);
-                players[0].removeCard(card);
-                topOfStack.setIcon(card.getCardImage());
+                else System.out.println("\tThe deck is empty!");
+                if (deck.getSizeOfDeck() == 0)
+                    deckPile.setIcon(new ImageIcon(Card.directory + "blank.gif"));
             }
         }
 
-        // IF IT WAS PLAYER #2'S LAY-ON-STACK BUTTON, REMOVE CARD
-        //   FROM HAND AND ADD IT TO STACK.
+        // If it was one of the pile buttons, remove the top card from
+        //   the pile and add it to corresponding player's card.
 
-        if(p2LayOnStack == src){
-            int [] cards  = p2HandPile.getSelectedIndices();
-            if (cards.length == 1)
-            {
-                Card card = players[1].getCard(cards[0]);
+        if (pileButtons[x] == src) {
+            if (player.getNumberOfCards() <= 9) {
+                Card card = pile.dealCard();
+                if (card != null) {
+                    Card topCard = pile.peek();
+                    if (topCard != null)
+                        topOfPile.setIcon(topCard.getCardImage());
+                    else
+                        topOfPile.setIcon(new ImageIcon(Card.directory + "blank.gif"));
+                    player.addCard(card);
+                    System.out.println("\tAdded card to the hand from the pile: " + card + "\n");
+                }
+                else System.out.println("\tThe pile is empty!");
+            }
+        }
+
+        // If it was one of the lay-run buttons, remove the selected cards
+        //    from the player's hand and add them to their corresponding set.
+
+        if (runButtons[x] == src) {
+            int [] cards = playerLists[x].getSelectedIndices();
+            if (cards != null) {
+                Run run = layRun(player, cards);
+                if (run != null) {
+                    for (int i = 0; i < run.getNumberOfCards(); i++) {
+                        player.removeCard(run.getCard(i));
+                    }
+                    System.out.println("\tLaid run of suit " + run.getSuit() + ": " + run);
+                }
+            }
+        }
+
+        // If it was one of the lay-set buttons, remove the selected cards
+        //   from the player's hand and add them to their corresponding set.
+
+        if (setButtons[x] == src) {
+            int [] cards = playerLists[x].getSelectedIndices();
+            if (cards != null) {
+                Set set = laySet(player, cards);
+                if (set != null) {
+                    for (int i = 0; i < set.getNumberOfCards(); i++) {
+                        player.removeCard(set.getCard(i));
+                    }
+                    System.out.println("\tLaid set of rank " + set.getRank() + ": " + set);
+                }
+            }
+        }
+
+        // If it was one of the lay-to-run buttons, make sure that the selected
+        //   card fits in one of the runs that has been laid down before, and add
+        //   the card to it.
+
+        if (layToRunButtons[x] == src) {
+            int[] cards = playerLists[x].getSelectedIndices();
+            if (cards.length == 1) {
+                Card card = player.getCard(cards[0]);
+                if (layToRun(card))
+                    player.removeCard(card);
+                    System.out.println("\tAdded card " + card + " to run of suit "
+                                                       + card.getSuit() + ".");
+            }
+        }
+
+        // If it was one of the lay-to-set buttons, make sure that the selected
+        //   card fits in one of the sets that has been laid down before, and add
+        //   the card to it.
+
+        if (layToSetButtons[x] == src) {
+            int[] cards = playerLists[x].getSelectedIndices();
+            if (cards.length == 1) {
+                Card card = player.getCard(cards[0]);
+                if (layToSet(card))
+                    player.removeCard(card);
+                System.out.println("\tAdded card " + card + " to set of rank "
+                        + card.getSuit() + ".");
+            }
+        }
+
+        // If it was one of the discard buttons, remove the selected card
+        //    from the player's hand and add it to the pile.
+
+        if (discardButtons[x] == src) {
+            int[] cards = playerLists[x].getSelectedIndices();
+            if (cards.length == 1) {
+                Card card = player.getCard(cards[0]);
                 pile.addCard(card);
-                players[1].removeCard(card);
-                topOfStack.setIcon(card.getCardImage());
+                player.removeCard(card);
+                topOfPile.setIcon(card.getCardImage());
+                System.out.println("\tDiscarded card to the pile: " + card);
+                if (player.isEmpty()) System.out.println("\tHand now: " + player);
+                else System.out.println("\tHand is now empty!");
+                turnCompleted = true;
             }
         }
     }
 
     /**
-     * Updates the GUI with images of the cards
-     *   laid from a player's hand.
-     * @param card the card being laid.
+     * Checks if a given combination of cards in a hand produces
+     *   a set, and, if it does, "lays it down" by updating the
+     *   corresponding GUI images and adding it to the list
+     *   of laid down sets.
+     * @param hand the hand from which the cards will be extracted.
+     * @param cards the indexes of the cards to be evaluated.
+     * @return whether or not the given cards produce a set.
      */
-    void layCard(Card card)
+    private Set laySet(Hand hand, int [] cards)
     {
-        char rank = card.getRank();
-        char suit = card.getSuit();
-        int suitIndex =  Card.getSuitIndex(suit);
-        int rankIndex =  Card.getRankIndex(rank);
-        //setPanels[rankIndex].array[suitIndex].setText(card.toString());
-        setPanels[rankIndex].array[suitIndex].setIcon(card.getCardImage());
+        if (cards.length >= 3) {
+
+            Hand possibleSet = new Hand(cards.length);
+            char[] ranks = new char[cards.length];
+
+            Card card = null;
+            for (int i = 0; i < cards.length; i++) {
+                card = hand.getCard(cards[i]);
+                ranks[i] = card.getRank();
+                possibleSet.addCard(card);
+            }
+
+            Set set = possibleSet.removeSet(ranks, Card.suit);
+
+            if (set != null && set.getNumberOfCards() == cards.length) {
+                setPanels[set.getRankIndex()].data = set;
+                int suit;
+                for (int i = 0; i < set.getNumberOfCards(); i++) {
+                    card = set.getCard(i); suit = Card.getSuitIndex(card.getSuit());
+                    setPanels[set.getRankIndex()].array[suit].setIcon(card.getCardImage());
+                }
+                laidSets.add(set);
+                return set;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Checks if a given combination of cards in a hand produces
+     *   a run, and, if it does, "lays it down" by updating the
+     *   corresponding GUI images and adding it to the list
+     *   of laid down runs.
+     * @param hand the hand from which the cards will be extracted.
+     * @param cards the indexes of the cards to be evaluated.
+     * @return whether or not the given cards produce a run.
+     */
+    private Run layRun(Hand hand, int [] cards)
+    {
+        if (cards.length >= 3) {
+
+            Hand possibleRun = new Hand(cards.length);
+            char[] suits = new char[cards.length];
+
+            Card card = null;
+            for (int i = 0; i < cards.length; i++) {
+                card = hand.getCard(cards[i]);
+                suits[i] = card.getRank();
+                possibleRun.addCard(card);
+            }
+
+            Run run = possibleRun.removeRun();
+
+            if (run != null && run.getNumberOfCards() == cards.length) {
+                runPanels[run.getSuitIndex()].data = run;
+                card = run.getFirstCard();
+                runPanels[run.getSuitIndex() + runOffset[run.getSuitIndex()]].
+                        array[0].setIcon(card.getCardImage());
+                card = run.getLastCard();
+                runPanels[run.getSuitIndex() + runOffset[run.getSuitIndex()]].
+                        array[1].setIcon(card.getCardImage());
+                laidRuns.add(run);
+                runOffset[run.getSuitIndex()] += 4;
+                return run;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Lays the selected card to a run, if there exists a run to
+     *   which it can be added.
+     * @param card the card to be laid down to the run.
+     * @return if it was added to a run or not.
+     */
+    private boolean layToRun(Card card)
+    {
+        if (!laidRuns.isEmpty()) {
+            Run run;
+            for (int i = 0; i < laidRuns.size(); i++) {
+                run = laidRuns.get(i);
+                if (card.sameSuit(run.getFirstCard())
+                    && card.offsetRank(run.getFirstCard()) == -1) {
+                    run.addAsFirst(card);
+                    runPanels[run.getSuitIndex()].array[0].setIcon(card.getCardImage());
+                    return true;
+                }
+                if (card.sameSuit(run.getLastCard())
+                    && card.offsetRank(run.getLastCard()) == 1) {
+                    run.addAsLast(card);
+                    runPanels[run.getSuitIndex()].array[1].setIcon(card.getCardImage());
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Lays the selected card to a set, if there exists a set to
+     *   which it can be added.
+     * @param card the card to be laid down to the set.
+     * @return if it was added to a set or not.
+     */
+    private boolean layToSet(Card card)
+    {
+        if (!laidSets.isEmpty()) {
+            Set set;
+            for (int i = 0; i < laidSets.size(); i++) {
+                set = laidSets.get(i);
+                if (set.getNumberOfCards() == 3
+                    && card.sameRank(set.getCard(0))) {
+                    set.addCard(card);
+                    set.sort();
+                    setPanels[set.getRankIndex()].array[set.findCard(card)].setIcon(card.getCardImage());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 
 class HandPanel extends JPanel {
 
-    public HandPanel(String name, JList hand, JButton stack, JButton deck, JButton lay, JButton layOnStack)
-    {
-        //model = hand.createSelectionModel();
+    public HandPanel(JLabel name, JList hand, JButton pile, JButton deck,
+                     JButton run, JButton set, JButton layRun, JButton laySet,
+                     JButton discard) {
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));       // add(Box.createGlue());
-        JLabel label = new JLabel(name);
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);        add(label);         // add(Box.createGlue());
-        stack.setAlignmentX(Component.CENTER_ALIGNMENT);        add(stack);         // add(Box.createGlue());
-        deck.setAlignmentX(Component.CENTER_ALIGNMENT);         add(deck);          // add(Box.createGlue());
-        lay.setAlignmentX(Component.CENTER_ALIGNMENT);          add(lay);           // add(Box.createGlue());
-        layOnStack.setAlignmentX(Component.CENTER_ALIGNMENT);   add(layOnStack);    add(Box.createGlue());
-                                                                add(hand);          add(Box.createGlue());
+        // setLayout(new GridLayout(, 2));
+
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        this.add(Box.createGlue());
+        JPanel handList = new JPanel();
+        handList.setLayout(new BoxLayout(handList, BoxLayout.X_AXIS));
+        handList.add(Box.createGlue());
+        handList.add(name);
+        handList.add(Box.createGlue());
+        hand.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+        hand.setVisibleRowCount(1);
+        handList.add(hand);
+        handList.add(Box.createGlue());
+        this.add(handList);
+        handList.setAlignmentY(Component.CENTER_ALIGNMENT);
+        handList.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        this.add(Box.createGlue());
+
+        JPanel handButtons = new JPanel();
+        handButtons.setLayout(new GridLayout(4, 2));
+
+        pile.setAlignmentX(Component.CENTER_ALIGNMENT);         handButtons.add(pile);
+        deck.setAlignmentX(Component.CENTER_ALIGNMENT);         handButtons.add(deck);
+        run.setAlignmentX(Component.CENTER_ALIGNMENT);          handButtons.add(run);
+        set.setAlignmentX(Component.CENTER_ALIGNMENT);          handButtons.add(set);
+        layRun.setAlignmentX(Component.CENTER_ALIGNMENT);       handButtons.add(layRun);
+        laySet.setAlignmentX(Component.CENTER_ALIGNMENT);       handButtons.add(laySet);
+        discard.setAlignmentX(Component.CENTER_ALIGNMENT);      handButtons.add(discard);
+
+        this.add(handButtons);
     }
-
-
 }
 
 class SetPanel extends JPanel {
 
-    private Set data;
-    JButton [] array = new JButton[Card.suit.length];
+    protected Set data;
+    JLabel [] array = new JLabel[Card.suit.length];
 
     public SetPanel(int index)
     {
@@ -483,31 +681,31 @@ class SetPanel extends JPanel {
         data = new Set(Card.rank[index]);
 
         for(int i = 0; i < array.length; i++){
-            array[i] = new JButton("Card " + Card.rank[index] + Card.suit[i]);
+            array[i] = new JLabel();
+            array[i].setIcon(new ImageIcon(Card.directory + "blank.gif"));
             add(array[i]);
         }
     }
 }
 
-//class PlayerController {
-//
-//    Hand playerHand;
-//    JList <Card> playerList;
-//
-//    public PlayerController(Hand player, JList <Card> playerList) {
-//
-//        this.playerHand = player;
-//        this.playerList = playerList;
-//
-//        this.playerList = new JList(player.hand.toArray());
-//    }
-//
-//    public void addCard(Card card) {
-//        ;
-//    }
-//
-//    public void addCard()
-//
-//
-//}
+class RunPanel extends JPanel {
 
+    protected Run data;
+    JLabel [] array = new JLabel[2];
+
+    public RunPanel(int index)
+    {
+        super();
+        data = new Run(Card.suit[index]);
+
+        for(int i = 0; i < array.length; i++){
+            array[i] = new JLabel();
+            array[i].setIcon(new ImageIcon(Card.directory + "blank.gif"));
+            add(array[i]);
+        }
+    }
+
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+}

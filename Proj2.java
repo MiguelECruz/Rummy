@@ -43,15 +43,18 @@ public class Proj2 {
 
     Hand [] players;
 
+    // Array of boolean flags to identify automatized players:
+
+    // boolean [] automatizedPlayer = new boolean[playerNumber];
+
     // Array of total points accumulated by each player:
 
     int [] points = new int[playerNumber];
 
     // Linked lists of laid down runs and sets:
 
-    java.util.LinkedList <Run> laidRuns = new LinkedList();
-
-    java.util.LinkedList <Set> laidSets = new LinkedList();
+    java.util.LinkedList <Run> laidRuns;
+    java.util.LinkedList <Set> laidSets;
 
     // Array of cards that each player removed last:
 
@@ -65,12 +68,19 @@ public class Proj2 {
      */
     public Proj2(String [] args, RummyTable table) throws InterruptedException {
 
-        // Initialize table, deck, pile and player array:
+        // Establish which players are automatized and which aren't:
+
+        // automatizedPlayer[1] = true;
+
+        // Initialize table, deck, pile and player array, and connect meld linked
+        //   list with the table's:
 
         this.table = table;
         this.deck = table.deck;
         this.pile = table.pile;
         this.players = table.players;
+        this.laidRuns = table.laidRuns;
+        this.laidSets = table.laidSets;
 
         // Change card capacity of each player's hand, to account for
         //   order of card addition and removal:
@@ -117,7 +127,7 @@ public class Proj2 {
         System.out.print("\n");
         while (!emptyHand && !emptyDeck) {
 
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(3);
 
             // State whose turn is it and display initial hand:
 
@@ -150,8 +160,15 @@ public class Proj2 {
             if (run != null) {
                 System.out.println("\tLaid run of suit " + run.getSuit() + ": " + run);
                 laidRuns.add(run);
-            }
-            else
+                card = run.getFirstCard();
+                table.runPanels[run.getSuitIndex() + table.runOffset[run.getSuitIndex()]].
+                        array[0].setIcon(card.getCardImage());
+                card = run.getLastCard();
+                table.runPanels[run.getSuitIndex() + table.runOffset[run.getSuitIndex()]].
+                        array[1].setIcon(card.getCardImage());
+                laidRuns.add(run);
+                table.runOffset[run.getSuitIndex()] += 4;
+            } else
                 System.out.println("\tFound no runs in the hand.");
 
             // Search for sets in the player's hand, and remove the first
@@ -161,8 +178,12 @@ public class Proj2 {
             if (set != null) {
                 System.out.println("\tLaid set of rank " + set.getRank() + ": " + set);
                 laidSets.add(set);
-            }
-            else
+                int suit;
+                for (int i = 0; i < set.getNumberOfCards(); i++) {
+                    card = set.getCard(i); suit = Card.getSuitIndex(card.getSuit());
+                    table.setPanels[set.getRankIndex()].array[suit].setIcon(card.getCardImage());
+                }
+            } else
                 System.out.println("\tFound no sets in the hand.");
 
             // Search for cards that fit in pre-removed ("laid down") sets
@@ -178,7 +199,7 @@ public class Proj2 {
             laidToSet = layToSet(players[turn]);
             while (!laidToSet.isEmpty()) {
                 System.out.println("\tAdded card " + laidToSet.top()
-                                 + " to set of rank " + laidToSet.top().getRank() + ".");
+                        + " to set of rank " + laidToSet.top().getRank() + ".");
                 laidToSet.pop();
             }
 
@@ -341,6 +362,9 @@ public class Proj2 {
                     if (Card.getRankIndex(player.getCard(j).getRank()) == laidSet.getRankIndex()) {
                         discardedCard = player.removeCard(j);
                         laidSet.addCard(discardedCard);
+                        table.setPanels[laidSet.getRankIndex()].
+                                array[laidSet.findCard(discardedCard)].
+                                setIcon(discardedCard.getCardImage());
                         discardedCards.push(discardedCard);
                     }
         return discardedCards;
@@ -370,8 +394,16 @@ public class Proj2 {
                     boolean addAsLast = discardedCard.offsetRank(runLastCard) == 1;
                     if (addAsFirst || addAsLast) {
                         discardedCard = player.removeCard(j);
-                        if (addAsFirst) laidRun.addAsFirst(discardedCard);
-                        else laidRun.addAsLast(discardedCard);
+                        if (addAsFirst) {
+                            laidRun.addAsFirst(discardedCard);
+                            table.runPanels[laidRun.getSuitIndex()].
+                                    array[0].setIcon(discardedCard.getCardImage());
+                        }
+                        else {
+                            laidRun.addAsLast(discardedCard);
+                            table.runPanels[laidRun.getSuitIndex()].
+                                    array[1].setIcon(discardedCard.getCardImage());
+                        }
                         discardedCards.push(discardedCard);
                     }
                 }
@@ -388,7 +420,7 @@ public class Proj2 {
     public static void main(String [] args) {
         try {
             RummyTable table = RummyTable.getTable();
-            table.setVisible(true);
+            table.setVisible(false);
 
             Proj2 rummyGame = new Proj2(args, table);
         }
