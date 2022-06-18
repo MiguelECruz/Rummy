@@ -41,7 +41,7 @@ As mentioned above, the coding aspect of the project is comprised of 18 Java fil
 
 * **`Proj2.java`**: The code in this file comprises the game mechanism itself, starting with retrieving the table instance from `RummyTable` and then following the game procedure. Being by far the most complex file in the system, the inner working of this procedure will be described in more detail in the next section. 
 
-# Project compilation and main game procedure
+## Project compilation and main game procedure
 
 The game can be activated simply by running the `main` method in the `Proj2.java`. As the file is presently configured, the GUI is set to be invisible but is fully functional. The invisibility constraint can be easily changed by anyone with access to the main java files, but it was left that way because, firstly, when combined with the main game procedure, the terminal throws a lot of incomprehensive errors, and secondly, because the GUI has no practical implications for the game, since **the gameplay itself has only been implemented for two automatized players**, which play against each other, and whose moves and turns are printed as text. An example of this output is shown in the `p2-output.txt` file in this repository. Further changes will be made to the `Proj2.java` and `RummyTable.java`files to allow the user to play against an automatized player, and to be able to use the GUI during said game, but this work is incomplete so far.
 
@@ -75,7 +75,7 @@ This steps fundamentally make up the core of the game and are enough to implemen
 
 * **Heuristic #4**: *Also add the top card from the pile if the card with its same suit and the rank that's just once removed from the top card's is already in the hand*. This gives the player another opportunity to discard a run, concretely the one started by their highest ranked card (e.g. '6C'), the Pile's top card ('7C'), and the remaining card ('5C'), if they have it. If they don't, then the turn is wasted, a potential risk, but not a grave one.
 
-# Extra credit specifications
+## Extra credit specifications
 
 The following tasks and mechanisms were implemented from among the extra credit items that are listed in the instructions document:
 
@@ -85,16 +85,16 @@ The following tasks and mechanisms were implemented from among the extra credit 
 * Made both `SetInterface` and `RunInterface` subclasses of another interface `MeldInterface`.
 * Implemented 4 heuristics for improving performance of automated play (described above). 
 
-# Collaboration disclaimer and acknowledgements
+## Collaboration disclaimer and acknowledgements
 
 As specified in the instructions document, this project is an open assignment, which means that collaboration between classmates and colleagues was encouraged by the instructor during all parts of the project's development. I, however, **did not collaborate with any other person** at any stage of this work, nor did I provide significant help to any classmate, barring answering some general questions about restrictions that were already established in the instruction document during unrelated group dynamics in synchronic class sessions. 
 I would, however, like to take this section as an opportunity to acknowledge and thank Dr. Ordóñez for her continuous disposition in clearing up doubts concerning this and other class assignments, her consideration in regards to adjusting many development restrictions and deadlines, and her encouragement of each student's creative impulses, which became a big source of motivation during the elaboration of this project. I would also like to thank all of the classmates who took time out of their undoubtedly busy routines to make fundamental and interesting questions and suggestions in both the synchronized class context and through the Piazza forum of this course, especially the anonymous poster who suggested changing the preexisting GUI button labels to more apt alternatives.
 
-# Deadline disclaimer
+## Deadline disclaimer
 
 The core of this project was uploaded to this repository on Monday, March 17th, 2021, and the final edit to the main files was done on the morning of Wednesday, March 19th, 2021, three days after the final due date of this project, which was last Sunday, March 15th, 2021. I did have most of the project files on a functional state by the end of the established deadline, but decided against adding them to the repository, as I found that the implementation of the game procedure in the `Proj2.java` file required more work. I wanted to notify this to be as upfront as possible with the instructor, which, as has been said before, has been continously considerate with regards to project deadlines during this course.
 
-# References 
+## References 
 
 In the development of this project, the following references were used:
 
