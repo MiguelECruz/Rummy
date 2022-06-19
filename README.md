@@ -1,8 +1,8 @@
 # Project #2: Rummy card game and GUI 
 
-#### Student: Miguel E. Cruz Molina | miguel.cruz15@upr.edu
-#### Course: CCOM 4029-001 
+#### Student: Miguel E. Cruz Molina | miguel.cruz15@upr.edu 
 #### Instructor: Dr. Patricia Ordóñez Franco
+#### Course: CCOM 4029-001
 #### Date: 5-16-2020
 #### Version of Java: Java SE Development Kit 15.0.2
 
